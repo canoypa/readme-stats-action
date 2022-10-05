@@ -5,7 +5,7 @@ inputs:
   token:
     description: GitHub Token
     default: ${{ github.token }}
-  userName:
+  user-name:
     description: User Name
     default: ${{ github.repository_owner }}
 

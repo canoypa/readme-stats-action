@@ -4,7 +4,7 @@ import { resolve } from "path";
 import { getProcessor } from "processor";
 
 const token = getInput("token", { required: true });
-const userName = getInput("userName", { required: true });
+const userName = getInput("user-name", { required: true });
 
 const targetPath = resolve("./README.md");
 
