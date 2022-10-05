@@ -1,0 +1,14 @@
+name: Readme Stats
+description: Text-based GitHub Readme Stats
+
+inputs:
+  token:
+    description: GitHub Token
+    default: ${{ github.token }}
+  userName:
+    description: User Name
+    default: ${{ github.repository_owner }}
+
+runs:
+  using: node16
+  main: dist/index.js
