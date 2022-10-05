@@ -28,6 +28,7 @@ export const renderMostUsedLanguages = (
   const config: TableUserConfig = {
     border: getBorderCharacters("void"),
     columnDefault: { paddingLeft: 0 },
+    columns: { 1: { alignment: "right" } },
     singleLine: true,
   };
 
