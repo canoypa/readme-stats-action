@@ -1,6 +1,7 @@
 import { getOctokit } from "@actions/github";
 import { User } from "@octokit/graphql-schema";
 import { formatISO, startOfDay, startOfWeek, sub } from "date-fns";
+import { MostUsedLanguages } from "types";
 
 const query = `
   query ($userName: String!) {
@@ -29,7 +30,7 @@ const query = `
 export const fetchMostUsedLanguages = async (
   token: string,
   userName: string
-) => {
+): Promise<MostUsedLanguages> => {
   const octokit = getOctokit(token);
 
   const today = startOfDay(new Date());

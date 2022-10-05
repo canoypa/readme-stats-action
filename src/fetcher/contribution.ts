@@ -1,5 +1,6 @@
 import { getOctokit } from "@actions/github";
 import { User } from "@octokit/graphql-schema";
+import { Contributions } from "types";
 
 const query = `
   query ($userName: String!, $from: DateTime!, $to: DateTime!) {
@@ -27,7 +28,10 @@ const query = `
   }
 `;
 
-export const fetchContributions = async (token: string, userName: string) => {
+export const fetchContributions = async (
+  token: string,
+  userName: string
+): Promise<Contributions> => {
   const octokit = getOctokit(token);
 
   const response = await octokit.graphql<{ user: User }>(query, {
