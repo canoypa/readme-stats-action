@@ -1,6 +1,5 @@
 import { getOctokit } from "@actions/github";
 import { User } from "@octokit/graphql-schema";
-import { formatISO, startOfDay, startOfWeek, sub } from "date-fns";
 import { MostUsedLanguages } from "types";
 
 const query = `
@@ -33,14 +32,8 @@ export const fetchMostUsedLanguages = async (
 ): Promise<MostUsedLanguages> => {
   const octokit = getOctokit(token);
 
-  const today = startOfDay(new Date());
-  const from = formatISO(startOfWeek(sub(today, { years: 1 })));
-  const to = formatISO(today);
-
   const response = await octokit.graphql<{ user: User }>(query, {
     userName,
-    from,
-    to,
   });
 
   const langSizeTotal = new Map<string, number>();
