@@ -3,7 +3,7 @@ import { User } from "@octokit/graphql-schema";
 import { formatISO, startOfDay, startOfWeek, sub } from "date-fns";
 import { Contributions } from "types";
 
-const query = `
+const query = /* GraphQL */ `
   query ($userName: String!, $from: DateTime!, $to: DateTime!) {
     user(login: $userName) {
       repositories(

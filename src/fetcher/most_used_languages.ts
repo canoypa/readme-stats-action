@@ -2,7 +2,7 @@ import { getOctokit } from "@actions/github";
 import { User } from "@octokit/graphql-schema";
 import { MostUsedLanguages } from "types";
 
-const query = `
+const query = /* GraphQL */ `
   query ($userName: String!) {
     user(login: $userName) {
       repositories(
