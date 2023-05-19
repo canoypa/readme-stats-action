@@ -9,11 +9,11 @@ const userName = getInput("user-name", { required: true });
 const targetPath = resolve("./README.md");
 
 const main = async () => {
-  const md = await readFile(targetPath, { encoding: "utf-8" });
+  let md = await readFile(targetPath, { encoding: "utf-8" });
 
   const vFile = await getProcessor(token, userName).process(md);
-  const updatedMd = vFile.toString();
+  md = vFile.toString();
 
-  await writeFile(targetPath, updatedMd);
+  await writeFile(targetPath, md);
 };
 main();
