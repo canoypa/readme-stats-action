@@ -22,7 +22,7 @@ const main = async () => {
 
   let content = await readFile(targetPath, { encoding: "utf-8" });
 
-  const contributionsPattern = /<!--s+readme-stats:contributions+-->/g;
+  const contributionsPattern = /<!--\s+readme-stats:contributions\s+-->/g;
   if (content.match(contributionsPattern) !== null) {
     const data = await fetchContributions(token, userName);
     const replaceStr = renderContributions(data);
