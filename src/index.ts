@@ -31,7 +31,7 @@ const main = async () => {
   }
 
   const mostUsedLanguagesPattern =
-    /<!--\s+readme-stats:most-used-languages\s+-->/;
+    /<!--\s+readme-stats:most-used-languages\s+-->/g;
   if (content.match(mostUsedLanguagesPattern) !== null) {
     const data = await fetchMostUsedLanguages(token, userName);
     const replaceStr = renderMostUsedLanguages(data);
