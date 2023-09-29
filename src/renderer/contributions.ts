@@ -14,6 +14,7 @@ export const renderContributions = (contributions: Contributions) => {
   const config: TableUserConfig = {
     border: getBorderCharacters("void"),
     columnDefault: { paddingLeft: 0 },
+    columns: { 0: { paddingLeft: 4 } },
     singleLine: true,
   };
 

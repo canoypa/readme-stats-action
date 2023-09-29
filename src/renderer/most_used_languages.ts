@@ -16,21 +16,21 @@ export const renderMostUsedLanguages = (
   const data: string[][] = [];
   mostUsedLanguages.slice(0, 5).forEach((v) => {
     const percent = GRAPH_MAX_WIDTH * (v.percent / max);
-    const fullCount = Math.round(percent);
-    const needHalf = percent - Math.floor(percent) < 0.5;
+    const fullCount = Math.floor(percent);
+    const needHalf = percent - Math.floor(percent) > 0.5;
 
     data.push([
       v.name,
       numberFormat.format(v.percent),
       "|",
-      "█".repeat(fullCount) + needHalf ? "▌" : "",
+      "█".repeat(fullCount) + (needHalf ? "▌" : ""),
     ]);
   });
 
   const config: TableUserConfig = {
     border: getBorderCharacters("void"),
     columnDefault: { paddingLeft: 0 },
-    columns: { 1: { alignment: "right" } },
+    columns: { 0: { paddingLeft: 4 }, 1: { alignment: "right" } },
     singleLine: true,
   };
 
