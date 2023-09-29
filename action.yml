@@ -8,6 +8,11 @@ inputs:
   user-name:
     description: User Name
     default: ${{ github.repository_owner }}
+  target:
+    description: ""
+    default: "README.md"
+  template:
+    description: ""
 
 runs:
   using: node16
