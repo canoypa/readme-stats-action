@@ -1,6 +1,6 @@
 # Readme Stats Action
 
-Action for adding text-based GitHub stats to README.
+[GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats), but in text format.
 
 ## Usage
 
@@ -17,19 +17,30 @@ Action for adding text-based GitHub stats to README.
     # User name
     # Default: ${{ github.repository_owner }}
     user-name: ""
+
+    # Target markdown file path
+    # Default: "README.md"
+    target: "README.md"
+
+    # Path of the file to be copied to the "target" path
+    template: "README_TEMPLATE.md"
 ```
 
 ### Readme
 
 Add comments where you want to display.
 
+Comments are replaced with the text of the stats.
+
+So, save the original markdown file as a separate file.
+In this action, you can use the "template" option.
+
 #### Contributions
 
 Show detailed GitHub Contribution.
 
 ```markdown
-<!-- contributions start -->
-<!-- contributions end -->
+<!-- readme-stats:contributions -->
 ```
 
 Display like:
@@ -48,8 +59,7 @@ Total Contributed To : 4
 Show the most used languages.
 
 ```markdown
-<!-- most-used-languages start -->
-<!-- most-used-languages end -->
+<!-- readme-stats:most-used-languages -->
 ```
 
 Display like:
