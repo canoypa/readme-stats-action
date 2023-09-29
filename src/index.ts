@@ -1,7 +1,10 @@
 import { getInput } from "@actions/core";
+import { fetchContributions } from "fetcher/contribution";
+import { fetchMostUsedLanguages } from "fetcher/most_used_languages";
 import { copyFile, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { getProcessor } from "processor";
+import { renderContributions } from "renderer/contributions";
+import { renderMostUsedLanguages } from "renderer/most_used_languages";
 
 const token = getInput("token", { required: true });
 const userName = getInput("user-name", { required: true });
@@ -17,11 +20,25 @@ const main = async () => {
     await copyFile(templatePath, targetPath);
   }
 
-  let md = await readFile(targetPath, { encoding: "utf-8" });
+  let content = await readFile(targetPath, { encoding: "utf-8" });
 
-  const vFile = await getProcessor(token, userName).process(md);
-  md = vFile.toString();
+  const contributionsPattern = /<!--s+readme-stats:contributions+-->/g;
+  if (content.match(contributionsPattern) !== null) {
+    const data = await fetchContributions(token, userName);
+    const replaceStr = renderContributions(data);
 
-  await writeFile(targetPath, md);
+    content = content.replaceAll(contributionsPattern, replaceStr);
+  }
+
+  const mostUsedLanguagesPattern =
+    /<!--\s+readme-stats:most-used-languages\s+-->/;
+  if (content.match(mostUsedLanguagesPattern) !== null) {
+    const data = await fetchMostUsedLanguages(token, userName);
+    const replaceStr = renderMostUsedLanguages(data);
+
+    content = content.replaceAll(mostUsedLanguagesPattern, replaceStr);
+  }
+
+  await writeFile(targetPath, content);
 };
 main();
