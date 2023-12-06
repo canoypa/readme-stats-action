@@ -2,25 +2,20 @@ import { getOctokit } from "@actions/github";
 import { User } from "@octokit/graphql-schema";
 import { formatISO, startOfDay, startOfWeek, sub } from "date-fns";
 import { Contributions } from "types";
+import { fetchTotalCommit } from "./total_commit";
+import { fetchTotalStarEarned } from "./total_star_earned";
 
 const query = /* GraphQL */ `
   query ($userName: String!, $from: DateTime!, $to: DateTime!) {
     user(login: $userName) {
-      repositories(
-        ownerAffiliations: OWNER
-        isFork: false
-        orderBy: { field: STARGAZERS, direction: DESC }
-        first: 100
-      ) {
-        nodes {
-          stargazerCount
-        }
+      repositories {
+        totalCount
       }
-      contributionsCollection(from: $from, to: $to) {
-        totalRepositoryContributions
-        totalCommitContributions
-        totalIssueContributions
-        totalPullRequestContributions
+      issues {
+        totalCount
+      }
+      pullRequests {
+        totalCount
       }
       repositoriesContributedTo {
         totalCount
@@ -45,24 +40,20 @@ export const fetchContributions = async (
     to,
   });
 
-  const totalStarEarned = response.user.repositories.nodes!.reduce(
-    (p, c) => p + c?.stargazerCount!,
-    0
-  );
+  const totalStarEarned = fetchTotalStarEarned(token, userName);
   const totalContributedTo = response.user.repositoriesContributedTo.totalCount;
 
-  const contributionsCollection = response.user.contributionsCollection;
-  const repository = contributionsCollection.totalRepositoryContributions;
-  const commit = contributionsCollection.totalCommitContributions;
-  const pullRequest = contributionsCollection.totalPullRequestContributions;
-  const issue = contributionsCollection.totalIssueContributions;
+  const repository = response.user.repositories.totalCount;
+  const commit = fetchTotalCommit(token, userName);
+  const pullRequest = response.user.pullRequests.totalCount;
+  const issue = response.user.issues.totalCount;
 
   const contributions = {
-    totalStarEarned,
+    totalStarEarned: await totalStarEarned,
     totalContributedTo,
     repository,
     issue,
-    commit,
+    commit: await commit,
     pullRequest,
   };
 

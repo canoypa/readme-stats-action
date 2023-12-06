@@ -11,6 +11,10 @@ const query = /* GraphQL */ `
         first: 100
         orderBy: { field: PUSHED_AT, direction: DESC }
       ) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           languages(first: 100) {
             edges {
@@ -32,20 +36,29 @@ export const fetchMostUsedLanguages = async (
 ): Promise<MostUsedLanguages> => {
   const octokit = getOctokit(token);
 
-  const response = await octokit.graphql<{ user: User }>(query, {
-    userName,
-  });
-
   const langSizeTotal = new Map<string, number>();
-  response.user.repositories.nodes!.forEach((r) => {
-    r!.languages!.edges!.forEach((l) => {
-      const size = l!.size;
-      const name = l!.node.name;
 
-      const prev = langSizeTotal.get(name) ?? 0;
-      langSizeTotal.set(name, prev + size);
+  let hasNextPage = true;
+  let cursor: string | null = null;
+  do {
+    const params: { [param: string]: unknown } = { userName, cursor };
+    const response = await octokit.graphql<{ user: User }>(query, params);
+
+    const repo = response.user.repositories;
+
+    repo.nodes?.forEach((n) => {
+      n!.languages!.edges!.forEach((l) => {
+        const size = l!.size;
+        const name = l!.node.name;
+
+        const prev = langSizeTotal.get(name) ?? 0;
+        langSizeTotal.set(name, prev + size);
+      });
     });
-  });
+
+    hasNextPage = repo.pageInfo.hasNextPage;
+    cursor = repo.pageInfo.endCursor || null;
+  } while (hasNextPage);
 
   const sizeSum = [...langSizeTotal.values()].reduce((a, b) => a + b);
 
