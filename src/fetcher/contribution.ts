@@ -1,12 +1,11 @@
 import { getOctokit } from "@actions/github";
 import { User } from "@octokit/graphql-schema";
-import { formatISO, startOfDay, startOfWeek, sub } from "date-fns";
 import { Contributions } from "types";
 import { fetchTotalCommit } from "./total_commit";
 import { fetchTotalStarEarned } from "./total_star_earned";
 
 const query = /* GraphQL */ `
-  query ($userName: String!, $from: DateTime!, $to: DateTime!) {
+  query ($userName: String!) {
     user(login: $userName) {
       repositories {
         totalCount
@@ -30,14 +29,8 @@ export const fetchContributions = async (
 ): Promise<Contributions> => {
   const octokit = getOctokit(token);
 
-  const today = startOfDay(new Date());
-  const from = formatISO(startOfWeek(sub(today, { years: 1 })));
-  const to = formatISO(today);
-
   const response = await octokit.graphql<{ user: User }>(query, {
     userName,
-    from,
-    to,
   });
 
   const totalStarEarned = fetchTotalStarEarned(token, userName);
