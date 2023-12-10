@@ -33,20 +33,20 @@ export const fetchContributions = async (
     userName,
   });
 
-  const totalStarEarned = fetchTotalStarEarned(token, userName);
+  const totalStarEarned = await fetchTotalStarEarned(token, userName);
   const totalContributedTo = response.user.repositoriesContributedTo.totalCount;
 
   const repository = response.user.repositories.totalCount;
-  const commit = fetchTotalCommit(token, userName);
+  const commit = await fetchTotalCommit(token, userName);
   const pullRequest = response.user.pullRequests.totalCount;
   const issue = response.user.issues.totalCount;
 
   const contributions = {
-    totalStarEarned: await totalStarEarned,
+    totalStarEarned,
     totalContributedTo,
     repository,
     issue,
-    commit: await commit,
+    commit,
     pullRequest,
   };
 
