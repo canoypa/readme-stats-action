@@ -7,8 +7,8 @@ export const renderContributions = (contributions: Contributions) => {
     ["Issues", ":", contributions.issue],
     ["Commits", ":", contributions.commit],
     ["Pull-Requests", ":", contributions.pullRequest],
-    ["Total Stars Earned", ":", contributions.totalStarEarned],
-    ["Total Contributed To", ":", contributions.totalContributedTo],
+    ["Stars Earned", ":", contributions.totalStarEarned],
+    ["Contributed To", ":", contributions.totalContributedTo],
   ];
 
   const config: TableUserConfig = {
