@@ -29334,13 +29334,14 @@ var import_github3 = __toESM(require_github());
 var query3 = (
   /* GraphQL */
   `
-  query ($userName: String!) {
+  query ($userName: String!, $cursor: String) {
     user(login: $userName) {
       repositories(
         ownerAffiliations: OWNER
         isFork: false
         first: 100
         orderBy: { field: PUSHED_AT, direction: DESC }
+        after: $cursor
       ) {
         pageInfo {
           hasNextPage
