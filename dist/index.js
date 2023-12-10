@@ -7313,7 +7313,7 @@ var require_request = __commonJS({
         method,
         body,
         headers,
-        query: query5,
+        query: query4,
         idempotent,
         blocking,
         upgrade,
@@ -7390,7 +7390,7 @@ var require_request = __commonJS({
         this.completed = false;
         this.aborted = false;
         this.upgrade = upgrade || null;
-        this.path = query5 ? util.buildURL(path, query5) : path;
+        this.path = query4 ? util.buildURL(path, query4) : path;
         this.origin = origin;
         this.idempotent = idempotent == null ? method === "HEAD" || method === "GET" : idempotent;
         this.blocking = blocking == null ? false : blocking;
@@ -12099,13 +12099,13 @@ var require_mock_utils = __commonJS({
       }
     }
     function buildKey(opts) {
-      const { path, method, body, headers, query: query5 } = opts;
+      const { path, method, body, headers, query: query4 } = opts;
       return {
         path,
         method,
         body,
         headers,
-        query: query5
+        query: query4
       };
     }
     function generateKeyValues(data) {
@@ -14694,7 +14694,7 @@ var require_fetch = __commonJS({
         this.emit("terminated", error);
       }
     };
-    function fetch(input, init = {}) {
+    function fetch2(input, init = {}) {
       webidl.argumentLengthCheck(arguments, 1, { header: "globalThis.fetch" });
       const p = createDeferredPromise();
       let requestObject;
@@ -15623,7 +15623,7 @@ var require_fetch = __commonJS({
       }
     }
     module2.exports = {
-      fetch,
+      fetch: fetch2,
       Fetch,
       fetching,
       finalizeAndReportTiming
@@ -18895,7 +18895,7 @@ var require_undici = __commonJS({
     module2.exports.getGlobalDispatcher = getGlobalDispatcher;
     if (util.nodeMajor > 16 || util.nodeMajor === 16 && util.nodeMinor >= 8) {
       let fetchImpl = null;
-      module2.exports.fetch = async function fetch(resource) {
+      module2.exports.fetch = async function fetch2(resource) {
         if (!fetchImpl) {
           fetchImpl = require_fetch().fetch;
         }
@@ -20422,16 +20422,16 @@ var require_dist_node5 = __commonJS({
       let headers = {};
       let status;
       let url;
-      let { fetch } = globalThis;
+      let { fetch: fetch2 } = globalThis;
       if ((_b = requestOptions.request) == null ? void 0 : _b.fetch) {
-        fetch = requestOptions.request.fetch;
+        fetch2 = requestOptions.request.fetch;
       }
-      if (!fetch) {
+      if (!fetch2) {
         throw new Error(
           "fetch is not set. Please pass a fetch implementation as new Octokit({ request: { fetch }}). Learn more at https://github.com/octokit/octokit.js/#fetch-missing"
         );
       }
-      return fetch(requestOptions.url, {
+      return fetch2(requestOptions.url, {
         method: requestOptions.method,
         body: requestOptions.body,
         headers: requestOptions.headers,
@@ -20633,9 +20633,9 @@ var require_dist_node6 = __commonJS({
     ];
     var FORBIDDEN_VARIABLE_OPTIONS = ["query", "method", "url"];
     var GHES_V3_SUFFIX_REGEX = /\/api\/v3\/?$/;
-    function graphql(request2, query5, options) {
+    function graphql(request2, query4, options) {
       if (options) {
-        if (typeof query5 === "string" && "query" in options) {
+        if (typeof query4 === "string" && "query" in options) {
           return Promise.reject(
             new Error(`[@octokit/graphql] "query" cannot be used as variable name`)
           );
@@ -20650,7 +20650,7 @@ var require_dist_node6 = __commonJS({
           );
         }
       }
-      const parsedOptions = typeof query5 === "string" ? Object.assign({ query: query5 }, options) : query5;
+      const parsedOptions = typeof query4 === "string" ? Object.assign({ query: query4 }, options) : query4;
       const requestOptions = Object.keys(
         parsedOptions
       ).reduce((result, key) => {
@@ -20685,8 +20685,8 @@ var require_dist_node6 = __commonJS({
     }
     function withDefaults(request2, newDefaults) {
       const newRequest = request2.defaults(newDefaults);
-      const newApi = (query5, options) => {
-        return graphql(newRequest, query5, options);
+      const newApi = (query4, options) => {
+        return graphql(newRequest, query4, options);
       };
       return Object.assign(newApi, {
         defaults: withDefaults.bind(null, newRequest),
@@ -23519,11 +23519,11 @@ var require_github = __commonJS({
     var Context = __importStar(require_context());
     var utils_1 = require_utils4();
     exports.context = new Context.Context();
-    function getOctokit5(token2, options, ...additionalPlugins) {
+    function getOctokit4(token2, options, ...additionalPlugins) {
       const GitHubWithPlugins = utils_1.GitHub.plugin(...additionalPlugins);
       return new GitHubWithPlugins((0, utils_1.getOctokitOptions)(token2, options));
     }
-    exports.getOctokit = getOctokit5;
+    exports.getOctokit = getOctokit4;
   }
 });
 
@@ -29228,65 +29228,24 @@ var require_src = __commonJS({
 var import_core = __toESM(require_core());
 
 // src/fetcher/contribution.ts
-var import_github3 = __toESM(require_github());
+var import_github2 = __toESM(require_github());
 
 // src/fetcher/total_commit.ts
-var import_github = __toESM(require_github());
-var query = (
-  /* GraphQL */
-  `
-  query ($userName: String!, $cursor: String) {
-    user(login: $userName) {
-      repositories(
-        ownerAffiliations: OWNER
-        isFork: false
-        orderBy: { field: STARGAZERS, direction: DESC }
-        first: 100
-        after: $cursor
-      ) {
-        pageInfo {
-          hasNextPage
-          endCursor
-        }
-        nodes {
-          defaultBranchRef {
-            target {
-              ... on Commit {
-                __typename
-                history {
-                  totalCount
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`
-);
 var fetchTotalCommit = async (token2, userName2) => {
-  const octokit = (0, import_github.getOctokit)(token2);
-  let count = 0;
-  let hasNextPage = true;
-  let cursor = null;
-  do {
-    const params = { userName: userName2, cursor };
-    const response = await octokit.graphql(query, params);
-    const repo = response.user.repositories;
-    count += repo.nodes?.reduce((p, c) => {
-      const target = c?.defaultBranchRef?.target;
-      return target?.__typename !== "Commit" ? p : p + (target.history.totalCount || 0);
-    }, 0) ?? 0;
-    hasNextPage = repo.pageInfo.hasNextPage;
-    cursor = repo.pageInfo.endCursor || null;
-  } while (hasNextPage);
-  return count;
+  const url = new URL("https://api.github.com/search/commits");
+  url.searchParams.append("q", `author:${userName2}`);
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `token ${token2}`
+    }
+  });
+  const data = await res.json();
+  return data.total_count;
 };
 
 // src/fetcher/total_star_earned.ts
-var import_github2 = __toESM(require_github());
-var query2 = (
+var import_github = __toESM(require_github());
+var query = (
   /* GraphQL */
   `
   query ($userName: String!, $cursor: String) {
@@ -29311,13 +29270,13 @@ var query2 = (
 `
 );
 var fetchTotalStarEarned = async (token2, userName2) => {
-  const octokit = (0, import_github2.getOctokit)(token2);
+  const octokit = (0, import_github.getOctokit)(token2);
   let count = 0;
   let hasNextPage = true;
   let cursor = null;
   do {
     const params = { userName: userName2, cursor };
-    const response = await octokit.graphql(query2, params);
+    const response = await octokit.graphql(query, params);
     const repo = response.user.repositories;
     count += repo.nodes?.reduce((p, c) => p + (c?.stargazerCount ?? 0), 0) ?? 0;
     hasNextPage = repo.pageInfo.hasNextPage && !repo.nodes?.some((n) => (n?.stargazerCount ?? 0) < 1);
@@ -29327,7 +29286,7 @@ var fetchTotalStarEarned = async (token2, userName2) => {
 };
 
 // src/fetcher/contribution.ts
-var query3 = (
+var query2 = (
   /* GraphQL */
   `
   query ($userName: String!) {
@@ -29349,30 +29308,30 @@ var query3 = (
 `
 );
 var fetchContributions = async (token2, userName2) => {
-  const octokit = (0, import_github3.getOctokit)(token2);
-  const response = await octokit.graphql(query3, {
+  const octokit = (0, import_github2.getOctokit)(token2);
+  const response = await octokit.graphql(query2, {
     userName: userName2
   });
-  const totalStarEarned = fetchTotalStarEarned(token2, userName2);
+  const totalStarEarned = await fetchTotalStarEarned(token2, userName2);
   const totalContributedTo = response.user.repositoriesContributedTo.totalCount;
   const repository = response.user.repositories.totalCount;
-  const commit = fetchTotalCommit(token2, userName2);
+  const commit = await fetchTotalCommit(token2, userName2);
   const pullRequest = response.user.pullRequests.totalCount;
   const issue = response.user.issues.totalCount;
   const contributions = {
-    totalStarEarned: await totalStarEarned,
+    totalStarEarned,
     totalContributedTo,
     repository,
     issue,
-    commit: await commit,
+    commit,
     pullRequest
   };
   return contributions;
 };
 
 // src/fetcher/most_used_languages.ts
-var import_github4 = __toESM(require_github());
-var query4 = (
+var import_github3 = __toESM(require_github());
+var query3 = (
   /* GraphQL */
   `
   query ($userName: String!) {
@@ -29403,13 +29362,13 @@ var query4 = (
 `
 );
 var fetchMostUsedLanguages = async (token2, userName2) => {
-  const octokit = (0, import_github4.getOctokit)(token2);
+  const octokit = (0, import_github3.getOctokit)(token2);
   const langSizeTotal = /* @__PURE__ */ new Map();
   let hasNextPage = true;
   let cursor = null;
   do {
     const params = { userName: userName2, cursor };
-    const response = await octokit.graphql(query4, params);
+    const response = await octokit.graphql(query3, params);
     const repo = response.user.repositories;
     repo.nodes?.forEach((n) => {
       n.languages.edges.forEach((l) => {
