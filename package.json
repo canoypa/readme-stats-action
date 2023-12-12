@@ -3,6 +3,7 @@
   "description": "Text-based GitHub Readme Stats",
   "version": "0.1.0",
   "license": "MIT",
+  "packageManager": "pnpm@8.12.0",
   "scripts": {
     "test": "vitest",
     "build": "esbuild src/index.ts --platform=node --target=node20 --bundle --sourcemap --outfile=dist/index.js"
