@@ -7,7 +7,7 @@ import { fetchTotalStarEarned } from "./total_star_earned";
 const query = /* GraphQL */ `
   query ($userName: String!) {
     user(login: $userName) {
-      repositories {
+      repositories(ownerAffiliations: OWNER) {
         totalCount
       }
       issues {
