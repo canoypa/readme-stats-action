@@ -12,7 +12,7 @@ test("renderMostUsedLanguages", () => {
     TypeScript 30.00% | ████████████
     Python     20.00% | ████████`;
 
-  const result = renderMostUsedLanguages(mostUsedLanguages);
+  const result = renderMostUsedLanguages(mostUsedLanguages, 5);
 
   expect(result).toEqual(expectedOutput);
 });

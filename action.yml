@@ -13,6 +13,9 @@ inputs:
     default: "README.md"
   template:
     description: "Path to a template file to copy to target before writing stats"
+  most-used-languages-count:
+    description: "Number of languages to display in Most Used Languages"
+    default: "5"
 
 runs:
   using: node24

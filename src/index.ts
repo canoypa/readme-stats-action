@@ -15,6 +15,10 @@ const targetPath = resolve(optTarget);
 const optTemplate = getInput("template");
 const templatePath = optTemplate ? resolve(optTemplate) : null;
 
+const mostUsedLanguagesCount = Number(
+  getInput("most-used-languages-count", { required: true }),
+);
+
 const applyStats = async (
   content: string,
   name: string,
@@ -52,7 +56,10 @@ const main = async () => {
   );
 
   result = await applyStats(result, "most-used-languages", async () =>
-    renderMostUsedLanguages(await fetchMostUsedLanguages(token, userName)),
+    renderMostUsedLanguages(
+      await fetchMostUsedLanguages(token, userName),
+      mostUsedLanguagesCount,
+    ),
   );
 
   if (result !== content) {
