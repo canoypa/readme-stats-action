@@ -48,9 +48,10 @@ export const fetchMostUsedLanguages = async (
     const repo = response.user.repositories;
 
     repo.nodes?.forEach((n) => {
-      n!.languages!.edges!.forEach((l) => {
-        const size = l!.size;
-        const name = l!.node.name;
+      n?.languages?.edges?.forEach((l) => {
+        if (!l) return;
+        const size = l.size;
+        const name = l.node.name;
 
         const prev = langSizeTotal.get(name) ?? 0;
         langSizeTotal.set(name, prev + size);
