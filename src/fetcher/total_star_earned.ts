@@ -1,5 +1,5 @@
 import { getOctokit } from "@actions/github";
-import { User } from "@octokit/graphql-schema";
+import type { User } from "@octokit/graphql-schema";
 
 const query = /* GraphQL */ `
   query ($userName: String!, $cursor: String) {

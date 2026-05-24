@@ -1,5 +1,5 @@
-import { getBorderCharacters, table, TableUserConfig } from "table";
-import { MostUsedLanguages } from "types";
+import { getBorderCharacters, table, type TableUserConfig } from "table";
+import type { MostUsedLanguages } from "types";
 
 const GRAPH_MAX_WIDTH = 20;
 

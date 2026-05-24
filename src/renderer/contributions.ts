@@ -1,5 +1,5 @@
-import { getBorderCharacters, table, TableUserConfig } from "table";
-import { Contributions } from "types";
+import { getBorderCharacters, table, type TableUserConfig } from "table";
+import type { Contributions } from "types";
 
 export const renderContributions = (contributions: Contributions) => {
   const data = [

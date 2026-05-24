@@ -1,6 +1,6 @@
 import { getOctokit } from "@actions/github";
-import { User } from "@octokit/graphql-schema";
-import { Contributions } from "types";
+import type { User } from "@octokit/graphql-schema";
+import type { Contributions } from "types";
 import { fetchTotalCommit } from "./total_commit";
 import { fetchTotalStarEarned } from "./total_star_earned";
 
