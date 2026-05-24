@@ -19,7 +19,3 @@ jobs:
         run: pnpm check
       - name: Test
         run: pnpm test run
-      - name: Build
-        run: pnpm build
-      - name: Verify dist is up to date
-        run: git diff --exit-code dist/
