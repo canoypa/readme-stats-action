@@ -29,15 +29,14 @@ export const fetchContributions = async (
 ): Promise<Contributions> => {
   const octokit = getOctokit(token);
 
-  const response = await octokit.graphql<{ user: User }>(query, {
-    userName,
-  });
+  const [response, totalStarEarned, commit] = await Promise.all([
+    octokit.graphql<{ user: User }>(query, { userName }),
+    fetchTotalStarEarned(token, userName),
+    fetchTotalCommit(token, userName),
+  ]);
 
-  const totalStarEarned = await fetchTotalStarEarned(token, userName);
   const totalContributedTo = response.user.repositoriesContributedTo.totalCount;
-
   const repository = response.user.repositories.totalCount;
-  const commit = await fetchTotalCommit(token, userName);
   const pullRequest = response.user.pullRequests.totalCount;
   const issue = response.user.issues.totalCount;
 
