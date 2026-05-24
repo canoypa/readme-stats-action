@@ -67,11 +67,13 @@ test("fetchMostUsedLanguages", async () => {
 
   const result = await fetchMostUsedLanguages(token, userName);
 
-  expect(result).toEqual([
-    { name: "JavaScript", percent: 0.5 },
-    { name: "TypeScript", percent: 0.3 },
-    { name: "Python", percent: 0.2 },
-  ]);
+  expect(result).toEqual(
+    expect.arrayContaining([
+      { name: "JavaScript", percent: 0.5 },
+      { name: "TypeScript", percent: 0.3 },
+      { name: "Python", percent: 0.2 },
+    ]),
+  );
 
   expect(mocks.mockGetOctokit.mock.calls.length).toBe(1);
   expect(mocks.mockGetOctokit.mock.calls[0][0]).toBe(token);

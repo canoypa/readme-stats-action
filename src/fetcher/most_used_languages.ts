@@ -64,9 +64,12 @@ export const fetchMostUsedLanguages = async (
 
   const sizeSum = [...langSizeTotal.values()].reduce((a, b) => a + b);
 
-  const mostUsedLanguages = [...langSizeTotal.entries()]
-    .map(([name, size]) => ({ name, percent: size / sizeSum }))
-    .sort((a, b) => (a.percent > b.percent ? -1 : 1));
+  const mostUsedLanguages = [...langSizeTotal.entries()].map(
+    ([name, size]) => ({
+      name,
+      percent: size / sizeSum,
+    }),
+  );
 
   return mostUsedLanguages;
 };

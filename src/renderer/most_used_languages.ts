@@ -12,12 +12,13 @@ export const renderMostUsedLanguages = (
     minimumFractionDigits: 2,
   });
 
-  const max = Math.max(
-    ...mostUsedLanguages.slice(0, count).map((v) => v.percent),
-  );
+  const sorted = [...mostUsedLanguages]
+    .sort((a, b) => b.percent - a.percent)
+    .slice(0, count);
+  const max = sorted[0].percent;
 
   const data: string[][] = [];
-  mostUsedLanguages.slice(0, count).forEach((v) => {
+  sorted.forEach((v) => {
     const percent = GRAPH_MAX_WIDTH * (v.percent / max);
     const fullCount = Math.floor(percent);
     const needHalf = percent - Math.floor(percent) > 0.5;
