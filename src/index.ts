@@ -44,16 +44,19 @@ const main = async () => {
     await copyFile(templatePath, targetPath);
   }
 
-  let content = await readFile(targetPath, { encoding: "utf-8" });
+  const content = await readFile(targetPath, { encoding: "utf-8" });
+  let result = content;
 
-  content = await applyStats(content, "contributions", async () =>
+  result = await applyStats(result, "contributions", async () =>
     renderContributions(await fetchContributions(token, userName)),
   );
 
-  content = await applyStats(content, "most-used-languages", async () =>
+  result = await applyStats(result, "most-used-languages", async () =>
     renderMostUsedLanguages(await fetchMostUsedLanguages(token, userName)),
   );
 
-  await writeFile(targetPath, content);
+  if (result !== content) {
+    await writeFile(targetPath, result);
+  }
 };
 main().catch(setFailed);
