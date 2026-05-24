@@ -1,6 +1,6 @@
 import { copyFile, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { getInput } from "@actions/core";
+import { getInput, setFailed } from "@actions/core";
 import { fetchContributions } from "./fetcher/contribution";
 import { fetchMostUsedLanguages } from "./fetcher/most_used_languages";
 import { renderContributions } from "./renderer/contributions";
@@ -41,4 +41,4 @@ const main = async () => {
 
   await writeFile(targetPath, content);
 };
-main();
+main().catch(setFailed);
