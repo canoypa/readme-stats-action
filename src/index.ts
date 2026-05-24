@@ -15,6 +15,30 @@ const targetPath = resolve(optTarget);
 const optTemplate = getInput("template");
 const templatePath = optTemplate ? resolve(optTemplate) : null;
 
+const applyStats = async (
+  content: string,
+  name: string,
+  fetchAndRender: () => Promise<string>,
+): Promise<string> => {
+  const startMarker = `<!-- readme-stats:${name}:start -->`;
+  const endMarker = `<!-- readme-stats:${name}:end -->`;
+  const hasStart = content.includes(startMarker);
+  const hasEnd = content.includes(endMarker);
+  if (hasStart !== hasEnd) {
+    throw new Error(
+      `readme-stats:${name} の start/end マーカーが対応していません`,
+    );
+  }
+  if (!hasStart) return content;
+
+  const replaceStr = await fetchAndRender();
+  const pattern = new RegExp(
+    `(?<=${startMarker})[\\s\\S]*?(?=${endMarker})`,
+    "g",
+  );
+  return content.replaceAll(pattern, `\n${replaceStr}\n`);
+};
+
 const main = async () => {
   if (templatePath) {
     await copyFile(templatePath, targetPath);
@@ -22,22 +46,13 @@ const main = async () => {
 
   let content = await readFile(targetPath, { encoding: "utf-8" });
 
-  const contributionsPattern = /<!--\s+readme-stats:contributions\s+-->/g;
-  if (content.match(contributionsPattern) !== null) {
-    const data = await fetchContributions(token, userName);
-    const replaceStr = renderContributions(data);
+  content = await applyStats(content, "contributions", async () =>
+    renderContributions(await fetchContributions(token, userName)),
+  );
 
-    content = content.replaceAll(contributionsPattern, replaceStr);
-  }
-
-  const mostUsedLanguagesPattern =
-    /<!--\s+readme-stats:most-used-languages\s+-->/g;
-  if (content.match(mostUsedLanguagesPattern) !== null) {
-    const data = await fetchMostUsedLanguages(token, userName);
-    const replaceStr = renderMostUsedLanguages(data);
-
-    content = content.replaceAll(mostUsedLanguagesPattern, replaceStr);
-  }
+  content = await applyStats(content, "most-used-languages", async () =>
+    renderMostUsedLanguages(await fetchMostUsedLanguages(token, userName)),
+  );
 
   await writeFile(targetPath, content);
 };
