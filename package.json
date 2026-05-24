@@ -10,7 +10,7 @@
   "scripts": {
     "test": "vitest",
     "check": "biome check src",
-    "build": "esbuild src/index.ts --platform=node --target=node24 --bundle --sourcemap --outfile=dist/index.js"
+    "build": "tsup src/index.ts --platform node --target node24 --sourcemap --no-dts"
   },
   "dependencies": {
     "@actions/core": "^3.0.1",
@@ -21,7 +21,7 @@
     "@biomejs/biome": "^2.4.15",
     "@octokit/graphql-schema": "^15.26.1",
     "@types/node": "^25.9.1",
-    "esbuild": "^0.28.0",
+    "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.7"
   }
