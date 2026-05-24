@@ -13,7 +13,7 @@ const optTarget = getInput("target", { required: true });
 const targetPath = resolve(optTarget);
 
 const optTemplate = getInput("template");
-const templatePath = resolve(optTemplate);
+const templatePath = optTemplate ? resolve(optTemplate) : null;
 
 const main = async () => {
   if (templatePath) {
