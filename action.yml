@@ -3,7 +3,7 @@ description: Text-based GitHub Readme Stats
 
 inputs:
   token:
-    description: GitHub Token
+    description: "GitHub Token. A Personal Access Token is required to include private repository data."
     default: ${{ github.token }}
   user-name:
     description: User Name
