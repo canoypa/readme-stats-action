@@ -1,10 +1,10 @@
 import { getInput } from "@actions/core";
-import { fetchContributions } from "fetcher/contribution";
-import { fetchMostUsedLanguages } from "fetcher/most_used_languages";
+import { fetchContributions } from "./fetcher/contribution";
+import { fetchMostUsedLanguages } from "./fetcher/most_used_languages";
 import { copyFile, readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { renderContributions } from "renderer/contributions";
-import { renderMostUsedLanguages } from "renderer/most_used_languages";
+import { renderContributions } from "./renderer/contributions";
+import { renderMostUsedLanguages } from "./renderer/most_used_languages";
 
 const token = getInput("token", { required: true });
 const userName = getInput("user-name", { required: true });

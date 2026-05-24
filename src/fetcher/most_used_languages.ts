@@ -1,6 +1,6 @@
 import { getOctokit } from "@actions/github";
 import type { User } from "@octokit/graphql-schema";
-import type { MostUsedLanguages } from "types";
+import type { MostUsedLanguages } from "../types";
 
 const query = /* GraphQL */ `
   query ($userName: String!, $cursor: String) {
