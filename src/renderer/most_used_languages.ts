@@ -1,10 +1,10 @@
-import { getBorderCharacters, table, type TableUserConfig } from "table";
+import { getBorderCharacters, type TableUserConfig, table } from "table";
 import type { MostUsedLanguages } from "../types";
 
 const GRAPH_MAX_WIDTH = 20;
 
 export const renderMostUsedLanguages = (
-  mostUsedLanguages: MostUsedLanguages
+  mostUsedLanguages: MostUsedLanguages,
 ) => {
   const numberFormat = new Intl.NumberFormat("en-us", {
     style: "percent",

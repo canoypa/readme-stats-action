@@ -15,9 +15,9 @@ test("fetchTotalCommit", async () => {
   expect(result).toBe(10);
   expect(mockFetch.mock.calls.length).toBe(1);
   expect(mockFetch.mock.calls[0][0].toString()).toBe(
-    `https://api.github.com/search/commits?q=author%3A${userName}`
+    `https://api.github.com/search/commits?q=author%3A${userName}`,
   );
   expect(mockFetch.mock.calls[0][1].headers.Authorization).toBe(
-    `Bearer ${token}`
+    `Bearer ${token}`,
   );
 });

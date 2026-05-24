@@ -33,7 +33,7 @@ const query = /* GraphQL */ `
 
 export const fetchMostUsedLanguages = async (
   token: string,
-  userName: string
+  userName: string,
 ): Promise<MostUsedLanguages> => {
   const octokit = getOctokit(token);
 

@@ -25,7 +25,7 @@ const query = /* GraphQL */ `
 
 export const fetchContributions = async (
   token: string,
-  userName: string
+  userName: string,
 ): Promise<Contributions> => {
   const octokit = getOctokit(token);
 

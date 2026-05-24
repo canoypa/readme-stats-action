@@ -1,6 +1,6 @@
 export const fetchTotalCommit = async (
   token: string,
-  userName: string
+  userName: string,
 ): Promise<number> => {
   const url = new URL("https://api.github.com/search/commits");
   url.searchParams.append("q", `author:${userName}`);

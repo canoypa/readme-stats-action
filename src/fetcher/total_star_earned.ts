@@ -25,7 +25,7 @@ const query = /* GraphQL */ `
 
 export const fetchTotalStarEarned = async (
   token: string,
-  userName: string
+  userName: string,
 ): Promise<number> => {
   const octokit = getOctokit(token);
 
