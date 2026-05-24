@@ -18,6 +18,6 @@ test("fetchTotalCommit", async () => {
     `https://api.github.com/search/commits?q=author%3A${userName}`
   );
   expect(mockFetch.mock.calls[0][1].headers.Authorization).toBe(
-    `token ${token}`
+    `Bearer ${token}`
   );
 });

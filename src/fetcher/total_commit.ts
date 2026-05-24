@@ -7,7 +7,7 @@ export const fetchTotalCommit = async (
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
