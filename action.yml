@@ -9,10 +9,10 @@ inputs:
     description: User Name
     default: ${{ github.repository_owner }}
   target:
-    description: ""
+    description: "Path to the target file to write stats into"
     default: "README.md"
   template:
-    description: ""
+    description: "Path to a template file to copy to target before writing stats"
 
 runs:
   using: node24
