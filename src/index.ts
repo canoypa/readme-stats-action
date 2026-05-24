@@ -1,6 +1,6 @@
+import { copyFile, readFile, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { getInput } from "@actions/core";
-import { copyFile, readFile, writeFile } from "fs/promises";
-import { resolve } from "path";
 import { fetchContributions } from "./fetcher/contribution";
 import { fetchMostUsedLanguages } from "./fetcher/most_used_languages";
 import { renderContributions } from "./renderer/contributions";
