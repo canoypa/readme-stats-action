@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "commonjs",
+    "target": "ES2024",
+    "module": "preserve",
     "strict": true,
-    "baseUrl": "src",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true
   },
