@@ -12,15 +12,13 @@
     "check": "biome check src",
     "build": "tsup src/index.ts --platform node --target node24 --sourcemap --no-dts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@actions/core": "^3.0.1",
     "@actions/github": "^9.1.1",
-    "table": "^6.9.0"
-  },
-  "devDependencies": {
     "@biomejs/biome": "^2.4.16",
     "@octokit/graphql-schema": "^15.26.1",
     "@types/node": "^25.9.1",
+    "table": "^6.9.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.7"

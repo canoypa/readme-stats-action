@@ -7,17 +7,13 @@ settings:
 importers:
 
   .:
-    dependencies:
+    devDependencies:
       '@actions/core':
         specifier: ^3.0.1
         version: 3.0.1
       '@actions/github':
         specifier: ^9.1.1
         version: 9.1.1
-      table:
-        specifier: ^6.9.0
-        version: 6.9.0
-    devDependencies:
       '@biomejs/biome':
         specifier: ^2.4.16
         version: 2.4.16
@@ -27,6 +23,9 @@ importers:
       '@types/node':
         specifier: ^25.9.1
         version: 25.9.1
+      table:
+        specifier: ^6.9.0
+        version: 6.9.0
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(postcss@8.5.15)(typescript@6.0.3)
