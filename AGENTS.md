@@ -24,6 +24,7 @@ git add dist/index.js dist/index.js.map
 
 - `import type` is required for type-only imports (`verbatimModuleSyntax: true`) — missing it causes a TypeScript error
 - Tests must define all mocks inside `vi.hoisted()` — mocks defined outside won't work with vitest's hoisting
+- All runtime packages must be in `devDependencies`, not `dependencies` — tsup treats `dependencies` as external and does not bundle them; the action runs without `node_modules`
 
 ## Commands
 
