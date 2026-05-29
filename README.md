@@ -9,8 +9,8 @@
 ```yaml
 - uses: canoypa/readme-stats-action
   with:
-    # Personal access token
-    # If you want to show private activities, required user and repo permissions.
+    # GitHub Token.
+    # A Personal Access Token is required to include private repository data.
     # Default: ${{ github.token }}
     token: ""
 
@@ -24,23 +24,27 @@
 
     # Path of the file to be copied to the "target" path
     template: "README_TEMPLATE.md"
+
+    # Number of languages to display in Most Used Languages
+    # Default: "5"
+    most-used-languages-count: "5"
 ```
 
 ### Readme
 
-Add comments where you want to display.
+Add start/end comment markers where you want to display stats.
 
-Comments are replaced with the text of the stats.
+The content between markers is replaced with the latest stats on each run.
 
-So, save the original markdown file as a separate file.
-In this action, you can use the "template" option.
+To avoid overwriting your original file, save it as a separate template file and use the `template` option.
 
 #### Contributions
 
 Show detailed GitHub Contribution.
 
 ```markdown
-<!-- readme-stats:contributions -->
+<!-- readme-stats:contributions:start -->
+<!-- readme-stats:contributions:end -->
 ```
 
 Display like:
@@ -59,7 +63,8 @@ Total Contributed To : 4
 Show the most used languages.
 
 ```markdown
-<!-- readme-stats:most-used-languages -->
+<!-- readme-stats:most-used-languages:start -->
+<!-- readme-stats:most-used-languages:end -->
 ```
 
 Display like:
